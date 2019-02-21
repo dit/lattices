@@ -1,0 +1,23 @@
+language: python
+python:
+  - "3.6"
+  - "3.7"  # 3.7 development branch
+  - "pypy3"
+
+matrix:
+  allow_failures:
+    - python: "pypy3"
+
+# command to install dependencies
+install:
+  - pip install --upgrade -e .[all]
+
+# command to run tests
+script:
+  - pytest --cov
+
+after_success:
+  - codecov
+
+notifications:
+  email: false
