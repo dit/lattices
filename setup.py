@@ -31,6 +31,7 @@ requires_dev = [
 
 requires_plotting = [
     'matplotlib',
+    'nxpd',
 ]
 
 setup(
