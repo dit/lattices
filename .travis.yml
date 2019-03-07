@@ -6,10 +6,7 @@ python:
 
 matrix:
   allow_failures:
-    - python:
-      - "3.7"  # not available on travis yet?
-      - "pypy3"
-
+    - python: ["3.7", "pypy3"]
 # command to install dependencies
 install:
   - pip install --upgrade -e .[all]
