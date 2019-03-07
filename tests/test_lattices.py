@@ -99,3 +99,64 @@ def test_dependency_lattice_3(size, true):
     assert len(lattice._lattice) == true
     assert lattice.top == {frozenset(range(size))}
     assert lattice.bottom == frozenset()
+
+
+@pytest.mark.parametrize(['size', 'true'], [
+    (1, 2),
+    (2, 6),
+    (3, 82),
+])
+def test_dependency_antichain_lattice_1(size, true):
+    """
+    """
+    lattice = dependency_antichain_lattice(range(size), cover=False, connected=False)
+    assert len(lattice._lattice) == true
+
+
+@pytest.mark.parametrize(['size', 'true'], [
+    (1, 2),
+    (2, 6),
+    (3, 82),
+])
+def test_dependency_antichain_lattice_2(size, true):
+    """
+    """
+    lattice = dependency_antichain_lattice(range(size), cover=False, connected=True)
+    assert len(lattice._lattice) == true
+
+
+@pytest.mark.parametrize(['size', 'true'], [
+    (1, 1),
+    (2, 2),
+    (3, 20),
+])
+def test_dependency_antichain_lattice_3(size, true):
+    """
+    """
+    lattice = dependency_antichain_lattice(range(size), cover=True, connected=False)
+    assert len(lattice._lattice) == true
+
+
+@pytest.mark.parametrize(['size', 'true'], [
+    (1, 1),
+    (2, 2),
+    (3, 20),
+])
+def test_dependency_antichain_lattice_4(size, true):
+    """
+    """
+    lattice = dependency_antichain_lattice(range(size), cover=True, connected=True)
+    assert len(lattice._lattice) == true
+
+
+@pytest.mark.parametrize(['size', 'true'], [
+    (1, 1),
+    (2, 2),
+    (3, 9),
+    (4, 346),
+])
+def test_partition_antichain_lattice(size, true):
+    """
+    """
+    lattice = partition_antichain_lattice(range(size))
+    assert len(lattice._lattice) == true
