@@ -79,8 +79,9 @@ class Lattice(object):
         lattice : nx.DiGraph
             The lattice representing `relationship` over `nodes`.
         """
+        nodes = list(nodes)
         lattice = nx.DiGraph()
-        lattice.add_nodes_from(list(nodes))
+        lattice.add_nodes_from(nodes)
 
         self._stringify = stringify(symbols=symbols)
 
