@@ -5,9 +5,6 @@ from itertools import combinations
 
 import networkx as nx
 
-from nxpd import draw
-
-
 __all__ = [
     'Lattice',
 ]
@@ -287,6 +284,8 @@ class Lattice(object):
         """
         Draw a pretty version of the lattice.
         """
+        from nxpd import draw
+
         edges = [(self._stringify(a), self._stringify(b)) for a, b in self._lattice.edges()]
         pretty_lattice = nx.from_edgelist(edges, nx.DiGraph)
         draw(pretty_lattice)
@@ -300,6 +299,8 @@ class Lattice(object):
         repr : bytes
             The data content of a png representation.
         """
+        from nxpd import draw
+
         edges = [(self._stringify(a), self._stringify(b)) for a, b in self._lattice.edges()]
         pretty_lattice = nx.from_edgelist(edges, nx.DiGraph)
         return draw(pretty_lattice, show='ipynb').data
