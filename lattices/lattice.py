@@ -20,7 +20,7 @@ def stringify(symbols='•꞉⋮'):
     Parameters
     ----------
     symbols : str
-        The symbols to utilize to seperate elements.
+        The symbols to utilize to separate elements.
 
     Returns
     -------
@@ -72,7 +72,7 @@ class Lattice(object):
         relationship : func
             A function implementing the ordering among `nodes`.
         symbols : str
-            The symbols to use to seperate elements of each node.
+            The symbols to use to separate elements of each node.
 
         Returns
         -------
@@ -80,7 +80,7 @@ class Lattice(object):
             The lattice representing `relationship` over `nodes`.
         """
         lattice = nx.DiGraph()
-        lattice.add_nodes_from(nodes)
+        lattice.add_nodes_from(list(nodes))
 
         self._stringify = stringify(symbols=symbols)
 
