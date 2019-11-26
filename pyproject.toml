@@ -7,6 +7,9 @@ module = "lattices"
 author = "Ryan G. James"
 author-email = "ryangregoryjames@gmail.com"
 classifiers = ["License :: OSI Approved :: BSD License"]
+requires = [
+    'networkx',
+]
 
 [tool.flit.metadata.requires-extra]
 plotting = [
