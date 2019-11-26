@@ -7,3 +7,26 @@ module = "lattices"
 author = "Ryan G. James"
 author-email = "ryangregoryjames@gmail.com"
 classifiers = ["License :: OSI Approved :: BSD License"]
+
+[tool.flit.metadata.requires-extra]
+plotting = [
+    "nxpd @ git+https://git@github.com/chebee7i/nxpd.git@refs/pull/15/merge#egg=nxpd",
+]
+dev = [
+    "codecov",
+    "hypothesis",
+    "ipython[nbconvert]",
+    "pytest",
+    "pytest-cov",
+    "sphinx",
+]
+test = [
+    "codecov",
+    "hypothesis",
+    "pytest >=2.7.3",
+    "pytest-cov",
+]
+doc = [
+    "ipython[nbconvert]",
+    "sphinx",
+]

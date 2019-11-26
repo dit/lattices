@@ -1,7 +1,9 @@
 """
 """
 
-from itertools import combinations
+from copy import deepcopy
+
+from itertools import combinations, permutations
 
 import networkx as nx
 
@@ -38,7 +40,11 @@ def stringify(symbols='•꞉⋮'):
         string : str
             The string representation of `things`.
         """
-        things = list(things)
+        try:
+            things = list(things)
+        except TypeError:
+            return str(things)
+
         try:
             if type(things[0]) is frozenset:
                 stringer = stringify(symbols[1:])
@@ -80,6 +86,8 @@ class Lattice(object):
         lattice = nx.DiGraph()
         lattice.add_nodes_from(nodes)
 
+        self._relationship = relationship
+
         self._stringify = stringify(symbols=symbols)
 
         for a, b in combinations(nodes, 2):
@@ -105,6 +113,17 @@ class Lattice(object):
         self.top = self._ts[0]
         self.bottom = self._ts[-1]
 
+    def __iter__(self):
+        """
+        Return an iterator over the nodes of the lattice.
+
+        Returns
+        -------
+        iter : iterator
+            An iterator over `self._lattice`.
+        """
+        return iter(self._ts)
+
     def _validate(self):
         """
         Validate that the elements and partial order form a lattice.
@@ -114,31 +133,81 @@ class Lattice(object):
         valid : bool
             True if the partial order is a lattice, False otherwise.
         """
-        raise NotImplementedError
+        def least_upper_bound(nodes):
+            for node in nodes:
+                if all(node in self.descendants(ub, include=True) for ub in nodes):
+                    return node
+
+        def greatest_lower_bound(nodes):
+            for node in nodes:
+                if all(node in self.ascendants(lb, include=True) for lb in nodes):
+                    return node
+
+        for a, b in combinations(self, 2):
+            upper_bounds = self.ascendants(a, include=True) & self.ascendants(b, include=True)
+            if not least_upper_bound(upper_bounds):
+                return False
+            lower_bounds = self.descendants(a, include=True) & self.descendants(b, include=True)
+            if not greatest_lower_bound(lower_bounds):
+                return False
+        else:
+            return True
 
     @property
     def distributive(self):
         """
-        Determine whether the lattice is distributive or not.
+        Determine whether the lattice is distributive or not:
+            a ∨ (b ∧ c) = (a ∨ b) ∧ (a ∨ c)
 
         Returns
         -------
         distributed : bool
             Whether the lattice is distributive or not.
         """
-        raise NotImplementedError
+        for a, b, c in permutations(self, 3):
+            left = self.join(a, self.meet(b, c))
+            right = self.meet(self.join(a, b), self.join(a, c))
+            if not left == right:
+                return False
+        else:
+            return True
 
     @property
     def modular(self):
         """
-        Determine whether the lattice is modular or not.
+        Determine whether the lattice is modular or not:
+            (a ∧ c) ∨ (b ∧ c) = ((a ∧ c) ∨ b) ∧ c.
 
         Returns
         -------
         distributed : bool
             Whether the lattice is modular or not.
         """
-        raise NotImplementedError
+        for a, b, c in permutations(self, 3):
+            left = self.join(self.meet(a, c), self.meet(b, c))
+            right = self.meet(self.join(self.meet(a, c), b), c)
+            if not left == right:
+                return False
+        else:
+            return True
+
+    def inverse(self):
+        """
+        Construct the inverse of the lattice.
+
+        Returns
+        -------
+        inverse : Lattice
+            The lattice inverse.
+        """
+        inverse = deepcopy(self)
+
+        inverse._lattice = inverse._lattice.reverse()
+        inverse._relationship = lambda a, b: self._relationship(b, a)
+        inverse._ts = list(nx.topological_sort(inverse._lattice))
+        inverse.top, inverse.bottom = inverse.bottom, inverse.top
+
+        return inverse
 
     def ascendants(self, node, include=False):
         """
@@ -182,6 +251,16 @@ class Lattice(object):
             nodes.remove(node)
         return set(nodes)
 
+    def covering(self, node):
+        """
+        """
+        pass
+
+    def covers(self, node):
+        """
+        """
+        pass
+
     def join(self, *nodes, predicate=None):
         """
         Return the join of `nodes`, that is the least element which is greater
@@ -201,7 +280,9 @@ class Lattice(object):
         joins = [n for n in self._ts if all(n in parents for parents in parentss)]
         if predicate:
             joins = [n for n in joins if predicate(n)]
-        return joins[-1]
+        joins = [n for n in joins if all(n in self.descendants(ub, include=True) for ub in joins)]
+        if joins:
+            return joins[0]
 
     def meet(self, *nodes, predicate=None):
         """
@@ -221,9 +302,10 @@ class Lattice(object):
         childrens = [self.descendants(node, include=True) for node in nodes]
         meets = [n for n in self._ts if all(n in children for children in childrens)]
         if predicate:
-            print(meets)
             meets = [n for n in meets if predicate(n)]
-        return meets[0]
+        meets = [n for n in meets if all(n in self.ascendants(ub, include=True) for ub in meets)]
+        if meets:
+            return meets[0]
 
     def complement(self, node):
         """
@@ -280,15 +362,25 @@ class Lattice(object):
         irrs = self.join_irreducibles() & self.meet_irreducibles()
         return irrs
 
+    def _pretty_lattice(self):
+        """
+        Construct a version of the lattice with nicer looking node labels.
+
+        Returns
+        -------
+        pretty_lattice : nx.DiGraph
+            A topologically-equivalent, but nicer labeled, lattice.
+        """
+        edges = [(self._stringify(a), self._stringify(b)) for a, b in self._lattice.edges()]
+        return nx.from_edgelist(edges, nx.DiGraph)
+
     def draw(self):  # pragma: no cover
         """
         Draw a pretty version of the lattice.
         """
         from nxpd import draw
 
-        edges = [(self._stringify(a), self._stringify(b)) for a, b in self._lattice.edges()]
-        pretty_lattice = nx.from_edgelist(edges, nx.DiGraph)
-        draw(pretty_lattice)
+        draw(self._pretty_lattice())
 
     def _repr_png_(self):  # pragma: no cover
         """
@@ -301,6 +393,4 @@ class Lattice(object):
         """
         from nxpd import draw
 
-        edges = [(self._stringify(a), self._stringify(b)) for a, b in self._lattice.edges()]
-        pretty_lattice = nx.from_edgelist(edges, nx.DiGraph)
-        return draw(pretty_lattice, show='ipynb').data
+        return draw(self._pretty_lattice(), show='ipynb').data

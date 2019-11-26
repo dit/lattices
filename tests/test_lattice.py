@@ -5,7 +5,7 @@ Tests for lattices.lattice
 import pytest
 
 from lattices.lattice import stringify, Lattice
-from lattices.lattices import M3, N5, free_distributive_lattice
+from lattices.lattices import M3, N5, free_distributive_lattice, powerset_lattice
 
 
 @pytest.mark.parametrize(['a', 'b', 'c'], [
@@ -158,7 +158,6 @@ def test_lattice_join_irreducibles(lattice, join_irreducibles):
     assert lattice.join_irreducibles() == join_irreducibles
 
 
-
 @pytest.mark.parametrize(['lattice', 'meet_irreducibles'], [
     (M3, {frozenset({'a'}), frozenset({'b'}), frozenset({'c'})}),
     (N5, {frozenset({'a'}), frozenset({'b'}), frozenset({'c'})}),
@@ -177,7 +176,6 @@ def test_lattice_mmet_irreducibles(lattice, meet_irreducibles):
     assert lattice.meet_irreducibles() == meet_irreducibles
 
 
-
 @pytest.mark.parametrize(['lattice', 'irreducibles'], [
     (M3, {frozenset({'a'}), frozenset({'b'}), frozenset({'c'})}),
     (N5, {frozenset({'a'}), frozenset({'b'}), frozenset({'c'})}),
@@ -191,3 +189,82 @@ def test_lattice_irreducibles(lattice, irreducibles):
     Test finding the irreducibles of the lattice.
     """
     assert lattice.irreducibles() == irreducibles
+
+
+bad_a_nodes = ['a', 'b', 'c', 'd']
+def bad_a_order(a, b):
+    return (a in ['a', 'b']) and (b in ['c', 'd'])
+bad_a = Lattice(bad_a_nodes, bad_a_order)
+
+bad_b_nodes = ['a', 'b', 'c', 'd', 'e', 'f']
+def bad_b_order(a, b):
+    if a == 'a' or b == 'f':
+        return True
+    elif a in ['b', 'c']:
+        return b in ['d', 'e']
+    else:
+        return False
+bad_b = Lattice(bad_b_nodes, bad_b_order)
+
+bad_c_nodes = ['0', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', '1']
+def bad_c_order(a, b):
+    if a == '0' or b == '1':
+        return True
+    elif a == 'd':
+        return b in ['a', 'b']
+    elif a == 'e':
+        return b in ['a', 'c']
+    elif a == 'f':
+        return b in ['b', 'c']
+    elif a == 'g':
+        return b in ['d', 'e', 'a', 'b','c']
+    elif a == 'h':
+        return b in ['d', 'f', 'a', 'b','c']
+    elif a == 'i':
+        return b in ['e', 'f', 'a', 'b','c']
+    else:
+        return False
+bad_c = Lattice(bad_c_nodes, bad_c_order)
+
+
+@pytest.mark.parametrize(['lattice', 'truth'], [
+    (M3, True),
+    (N5, True),
+    (free_distributive_lattice(range(3)), True),
+    (bad_a, False),
+    (bad_b, False),
+    (bad_c, False),
+])
+def test_lattice_validate(lattice, truth):
+    """
+    Test that lattices validate, and non-lattices don't.
+    """
+    assert lattice._validate() == truth
+
+
+@pytest.mark.parametrize(['lattice', 'truth'], [
+    (M3, False),
+    (N5, False),
+    (free_distributive_lattice(range(2)), True),
+    (free_distributive_lattice(range(3)), True),
+    (powerset_lattice(range(3)), True),
+])
+def test_lattice_distributive(lattice, truth):
+    """
+    Test lattice distributivity
+    """
+    assert lattice.distributive == truth
+
+
+@pytest.mark.parametrize(['lattice', 'truth'], [
+    (M3, True),
+    (N5, False),
+    (free_distributive_lattice(range(2)), True),
+    (free_distributive_lattice(range(3)), True),
+    (powerset_lattice(range(3)), True),
+])
+def test_lattice_distributive(lattice, truth):
+    """
+    Test lattice distributivity
+    """
+    assert lattice.modular == truth

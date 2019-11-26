@@ -181,6 +181,7 @@ nodes = {frozenset([0]),
 
 def m3_order(a, b):
     """
+    The smallest non-distributed lattice.
     """
     if a == {0} or b == {1}:
         return True
@@ -193,6 +194,7 @@ M3 = Lattice(nodes, m3_order)
 
 def n5_order(a, b):
     """
+    The smallest non-modular lattice.
     """
     if a == {0} or b == {1}:
         return True
