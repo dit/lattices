@@ -16,7 +16,8 @@ requires = [
 
 [tool.flit.metadata.requires-extra]
 plotting = [
-    "nxpd @ git+https://git@github.com/chebee7i/nxpd.git@refs/pull/15/merge#egg=nxpd",
+    #"nxpd @ git+https://git@github.com/chebee7i/nxpd.git@refs/pull/15/merge#egg=nxpd",
+    "nxpd"
 ]
 dev = [
     "codecov",

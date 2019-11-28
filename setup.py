@@ -30,7 +30,8 @@ requires_dev = [
 ]
 
 requires_plotting = [
-    'nxpd @ git+https://git@github.com/chebee7i/nxpd.git@refs/pull/15/merge#egg=nxpd'
+    # 'nxpd @ git+https://git@github.com/chebee7i/nxpd.git@refs/pull/15/merge#egg=nxpd',
+    'nxpd',
 ]
 
 setup(
