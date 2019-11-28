@@ -1,5 +1,8 @@
 """
+The fundimental Lattice class.
 """
+
+from collections import Iterable
 
 from copy import deepcopy
 
@@ -46,7 +49,7 @@ def stringify(symbols='•꞉⋮'):
             return str(things)
 
         try:
-            if type(things[0]) is frozenset:
+            if isinstance(things[0], Iterable) and not isinstance(things[0], str):
                 stringer = stringify(symbols[1:])
                 string = symbols[0].join(sorted((stringer(thing) for thing in things), key=lambda t: (-len(t), t)))
             else:
@@ -251,15 +254,22 @@ class Lattice(object):
             nodes.remove(node)
         return set(nodes)
 
-    def covering(self, node):
-        """
-        """
-        pass
-
     def covers(self, node):
         """
+        Return the covers of `node`; the elements of the lattice immediately
+        less than `node`.
+
+        Parameters
+        ----------
+        node : {elements}
+            The node of interest.
+
+        Returns
+        -------
+        covers : {{elements}}
+            The covers.
         """
-        pass
+        return self._lattice[node]
 
     def join(self, *nodes, predicate=None):
         """
@@ -270,6 +280,8 @@ class Lattice(object):
         ----------
         nodes : {{elements}}
             The nodes to compute the join of.
+        predicate : func
+            A function for which the found join must satisfy.
 
         Returns
         -------
@@ -278,7 +290,7 @@ class Lattice(object):
         """
         parentss = [self.ascendants(node, include=True) for node in nodes]
         joins = [n for n in self._ts if all(n in parents for parents in parentss)]
-        if predicate:
+        if predicate is not None:
             joins = [n for n in joins if predicate(n)]
         joins = [n for n in joins if all(n in self.descendants(ub, include=True) for ub in joins)]
         if joins:
@@ -293,6 +305,8 @@ class Lattice(object):
         ----------
         nodes : {{elements}}
             The nodes to compute the meet of.
+        predicate : func
+            A function for which the found meet must satisfy.
 
         Returns
         -------
@@ -301,7 +315,7 @@ class Lattice(object):
         """
         childrens = [self.descendants(node, include=True) for node in nodes]
         meets = [n for n in self._ts if all(n in children for children in childrens)]
-        if predicate:
+        if predicate is not None:
             meets = [n for n in meets if predicate(n)]
         meets = [n for n in meets if all(n in self.ascendants(ub, include=True) for ub in meets)]
         if meets:
@@ -369,7 +383,7 @@ class Lattice(object):
         Returns
         -------
         pretty_lattice : nx.DiGraph
-            A topologically-equivalent, but nicer labeled, lattice.
+            A topologically-equivalent, but more nicely labeled, lattice.
         """
         edges = [(self._stringify(a), self._stringify(b)) for a, b in self._lattice.edges()]
         return nx.from_edgelist(edges, nx.DiGraph)

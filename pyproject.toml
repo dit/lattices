@@ -1,5 +1,8 @@
 [build-system]
-requires = ["flit"]
+requires = [
+    "flit",
+    "setuptools"
+]
 build-backend = "flit.buildapi"
 
 [tool.flit.metadata]

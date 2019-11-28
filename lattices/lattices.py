@@ -1,4 +1,5 @@
 """
+Several specific types of lattices.
 """
 
 from operator import le
@@ -181,7 +182,7 @@ nodes = {frozenset([0]),
 
 def m3_order(a, b):
     """
-    The smallest non-distributed lattice.
+    The smallest non-distributive lattice.
     """
     if a == {0} or b == {1}:
         return True

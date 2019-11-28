@@ -1,12 +1,44 @@
 """
+Utilities for constructing and working with lattices.
 """
 
+from collections import Iterable
+from copy import deepcopy
 from itertools import chain, combinations
+
+import networkx as nx
 
 
 __all__ = [
+    'flatten',
     'powerset',
+    'transform',
 ]
+
+
+def flatten(l, levels=None):
+    """Flatten an irregular list of lists.
+
+    Parameters
+    ----------
+    l : iterable
+       The object to be flattened.
+
+    Yields
+    -------
+    el : object
+        The non-iterable items in `l`.
+    """
+    if levels == 0:
+        yield from l
+    else:
+        for el in l:
+            if isinstance(el, Iterable) and not (isinstance(el, str) and len(el) == 1):
+                levels = levels if levels is None else levels - 1
+                for sub in flatten(el, levels):
+                    yield sub
+            else:
+                yield el
 
 
 def powerset(iterable, size_limit=0):
