@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
 Utilities for constructing and working with lattices.
 """

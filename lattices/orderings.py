@@ -1,4 +1,7 @@
+# -*- coding: utf-8 -*-
+
 """
+A collection of potential orderings among nodes.
 """
 
 from operator import le
