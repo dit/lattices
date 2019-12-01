@@ -4,7 +4,7 @@
 The fundimental Lattice class.
 """
 
-from collections import Iterable
+from collections.abc import Iterable
 
 from copy import deepcopy
 

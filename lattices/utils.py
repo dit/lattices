@@ -4,7 +4,7 @@
 Utilities for constructing and working with lattices.
 """
 
-from collections import Iterable
+from collections.abc import Iterable
 from itertools import chain, combinations
 
 
