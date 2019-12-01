@@ -5,16 +5,12 @@ Utilities for constructing and working with lattices.
 """
 
 from collections import Iterable
-from copy import deepcopy
 from itertools import chain, combinations
-
-import networkx as nx
 
 
 __all__ = [
     'flatten',
     'powerset',
-    'transform',
 ]
 
 

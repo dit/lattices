@@ -1,4 +1,3 @@
-hypothesis
 ipython[nbconvert]
 numpy
 scipy

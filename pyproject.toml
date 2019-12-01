@@ -1,7 +1,6 @@
 [build-system]
 requires = [
     "flit",
-    "setuptools"
 ]
 build-backend = "flit.buildapi"
 
@@ -9,27 +8,34 @@ build-backend = "flit.buildapi"
 module = "lattices"
 author = "Ryan G. James"
 author-email = "ryangregoryjames@gmail.com"
-classifiers = ["License :: OSI Approved :: BSD License"]
+classifiers = [
+        'Development Status :: 3 - Alpha',
+        'Intended Audience :: Science/Research',
+        'License :: OSI Approved :: BSD License',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Topic :: Scientific/Engineering :: Physics',
+]
+description-file = "README.rst"
+home-page = "https://github.com/dit/lattices"
+keywords = "lattice, partial order, graph, network"
 requires = [
     'networkx',
 ]
+requires-python = "~=3.3"
 
 [tool.flit.metadata.requires-extra]
 plotting = [
     #"nxpd @ git+https://git@github.com/chebee7i/nxpd.git@refs/pull/15/merge#egg=nxpd",
     "nxpd"
 ]
-dev = [
-    "codecov",
-    "hypothesis",
-    "ipython[nbconvert]",
-    "pytest",
-    "pytest-cov",
-    "sphinx",
-]
 test = [
     "codecov",
-    "hypothesis",
     "pytest >=2.7.3",
     "pytest-cov",
 ]
@@ -37,3 +43,5 @@ doc = [
     "ipython[nbconvert]",
     "sphinx",
 ]
+
+dev = test + doc + plotting
