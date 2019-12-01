@@ -6,11 +6,12 @@ python:
 
 matrix:
   allow_failures:
-    - python: "3.7"    # not on travis yet?
     - python: "pypy3"
+
 # command to install dependencies
 install:
-  - pip install --upgrade -e .[all]
+  - pip install flit
+  - flit install
 
 # command to run tests
 script:

@@ -1,7 +1,7 @@
 environment:
   matrix:
     - PYTHON: "C:\\Python36-x64"
-      PYTHON_VERSION: "3.6"
+      PYTHON_VERSION: "3.7"
       PYTHON_ARCH: "64"
 
 init:
@@ -10,7 +10,8 @@ init:
 install:
   - set PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%
   - python --version
-  - pip install -e .[all]
+  - pip install flit
+  - flit install
 
 build: off
 
