@@ -291,10 +291,12 @@ class Lattice(object):
             The join of `nodes`.
         """
         parentss = [self.ascendants(node, include=True) for node in nodes]
-        joins = [n for n in self._ts if all(n in parents for parents in parentss)]
+        joins = {n for n in self._ts if all(n in parents for parents in parentss)}
         if predicate is not None:
-            joins = [n for n in joins if predicate(n)]
-        joins = [n for n in joins if all(n in self.descendants(ub, include=True) for ub in joins)]
+            joins = {n for n in joins if predicate(n)}
+        aboves = {n for n in joins if any(n in self.ascendants(ub) for ub in joins)}
+        joins = list(joins - aboves)
+
         if joins:
             return joins[0]
 
@@ -316,10 +318,12 @@ class Lattice(object):
             The meet of `nodes`.
         """
         childrens = [self.descendants(node, include=True) for node in nodes]
-        meets = [n for n in self._ts if all(n in children for children in childrens)]
+        meets = {n for n in self._ts if all(n in children for children in childrens)}
         if predicate is not None:
-            meets = [n for n in meets if predicate(n)]
-        meets = [n for n in meets if all(n in self.ascendants(ub, include=True) for ub in meets)]
+            meets = {n for n in meets if predicate(n)}
+        belows = {n for n in meets if any(n in self.descendants(ub) for ub in meets)}
+        meets = list(meets - belows)
+
         if meets:
             return meets[0]
 
