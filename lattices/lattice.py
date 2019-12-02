@@ -47,7 +47,7 @@ def stringify(symbols='•꞉⋮'):
         """
         try:
             things = list(things)
-        except TypeError:
+        except TypeError:  # pragma: no cover
             return str(things)
 
         try:
@@ -382,7 +382,7 @@ class Lattice(object):
         irrs = self.join_irreducibles() & self.meet_irreducibles()
         return irrs
 
-    def _pretty_lattice(self):
+    def _pretty_lattice(self):  # pragma: no cover
         """
         Construct a version of the lattice with nicer looking node labels.
 

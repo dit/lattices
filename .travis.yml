@@ -10,6 +10,8 @@ matrix:
 
 # command to install dependencies
 install:
+  - pwd
+  - ls
   - pip install flit
   - flit install
 
