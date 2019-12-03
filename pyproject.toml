@@ -48,7 +48,7 @@ dev = [
     "codecov",
     "ipython[nbconvert]",
     "nxpd",
-    "pytest >=2.7.3",
+    "pytest >= 4.4.0",
     "pytest-cov",
     "pytest-xdist",
     "sphinx",
