@@ -93,14 +93,19 @@ def test_lattice_join_1(lattice, a, b, true):
     assert lattice.join(a, b) == true
 
 
-@pytest.mark.parametrize(['lattice', 'a', 'b', 'predicate', 'true'], [
-    (free_distributive_lattice(range(3)), frozenset({frozenset({0}), frozenset({1})}), frozenset({frozenset({0}), frozenset({2})}), lambda n: len(n) == 1, frozenset({frozenset({0})})),
+@pytest.mark.parametrize(['lattice', 'a', 'b', 'predicate', 'trues'], [
+    (free_distributive_lattice(range(3)),
+     frozenset({frozenset({0}), frozenset({1})}),
+     frozenset({frozenset({0}), frozenset({2})}),
+     lambda n: len(n) == 1,
+     [frozenset({frozenset({0})}), frozenset({frozenset({1, 2})})]
+    ),
 ])
-def test_lattice_join_2(lattice, a, b, predicate, true):
+def test_lattice_join_2(lattice, a, b, predicate, trues):
     """
     Test finding the join of two nodes.
     """
-    assert lattice.join(a, b, predicate=predicate) == true
+    assert lattice.join(a, b, predicate=predicate) in trues
 
 
 @pytest.mark.parametrize(['lattice', 'a', 'b', 'true'], [
@@ -169,7 +174,7 @@ def test_lattice_join_irreducibles(lattice, join_irreducibles):
                                            frozenset({frozenset({1, 2})}),
                                            }),
 ])
-def test_lattice_mmet_irreducibles(lattice, meet_irreducibles):
+def test_lattice_meet_irreducibles(lattice, meet_irreducibles):
     """
     Test finding the meet irreducibles of the lattice.
     """

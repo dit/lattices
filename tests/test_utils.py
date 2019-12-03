@@ -4,7 +4,7 @@ Tests for lattices.utils
 
 import pytest
 
-from lattices.utils import powerset
+from lattices.utils import flatten, powerset
 
 
 @pytest.mark.parametrize(['stuff', 'min_size', 'size'], [
@@ -44,3 +44,16 @@ def test_powerset_3(stuff, min_size, thing):
     Test that certain elements are not in the powerset.
     """
     assert thing not in list(powerset(stuff, size_limit=min_size))
+
+
+@pytest.mark.parametrize(['nested', 'flat', 'levels'], [
+    ([[[1], 2], 3], [1, 2, 3], None),
+    ([[[1], 2], 3], [[1], 2, 3], 1),
+    ([[[1], 2], 3], [1, 2, 3], 2),
+    ([[[1], 2], [[3]]], [[1], 2, [3]], 1),
+])
+def test_flatten_1(nested, flat, levels):
+    """
+    Test some flattenings.
+    """
+    list(flatten(nested, levels=levels)) == flat
