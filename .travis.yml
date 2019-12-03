@@ -15,8 +15,7 @@ install:
 
 # command to run tests
 script:
-  - cd ..
-  - pytest lattices
+  - pytest .
 
 after_success:
   - codecov
