@@ -50,5 +50,6 @@ dev = [
     "nxpd",
     "pytest >=2.7.3",
     "pytest-cov",
+    "pytest-xdist",
     "sphinx",
 ]
