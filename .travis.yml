@@ -10,15 +10,12 @@ matrix:
 
 # command to install dependencies
 install:
-  - pwd
-  - ls
   - pip install flit
   - FLIT_ALLOW_INVALID=1 flit install
-  - ls -al
 
 # command to run tests
 script:
-  - pytest --cov
+  - pytest --cov=lattices
 
 after_success:
   - codecov
