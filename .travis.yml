@@ -13,7 +13,8 @@ install:
   - pwd
   - ls
   - pip install flit
-  - flit install
+  - FLIT_ALLOW_INVALID=1 flit install
+  - ls -al
 
 # command to run tests
 script:
