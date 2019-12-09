@@ -1,7 +1,7 @@
 environment:
   matrix:
     - PYTHON: "C:\\Python36-x64"
-      PYTHON_VERSION: "3.7"
+      PYTHON_VERSION: "3.8"
       PYTHON_ARCH: "64"
 
 init:
@@ -11,12 +11,12 @@ install:
   - set PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%
   - python --version
   - pip install flit
-  - flit install
+  - FLIT_ALLOW_INVALID=1 flit install
 
 build: off
 
 test_script:
-  - pytest  --cov
+  - pytest
 
 after_test:
   - codecov
