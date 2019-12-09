@@ -31,12 +31,11 @@ requires-python = "~=3.3"
 
 [tool.flit.metadata.requires-extra]
 plotting = [
-    #"nxpd @ git+https://git@github.com/chebee7i/nxpd.git@refs/pull/15/merge#egg=nxpd",
-    "nxpd"
+    "nxpd",  # "nxpd @ git+https://git@github.com/chebee7i/nxpd.git@refs/pull/15/merge#egg=nxpd",
 ]
 test = [
     "codecov",
-    "pytest >=2.7.3",
+    "pytest >= 4.4.0",
     "pytest-cov",
 ]
 doc = [

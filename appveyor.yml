@@ -11,7 +11,7 @@ install:
   - set PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%
   - python --version
   - pip install flit
-  - FLIT_ALLOW_INVALID=1 flit install
+  - flit install
 
 build: off
 
