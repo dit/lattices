@@ -1,5 +1,3 @@
-.. README.rst
-
 Lattices
 ========
 
@@ -17,8 +15,6 @@ out of date at this point, and you install a modified version:
 .. code-block:: bash
 
    pip install git+https://git@github.com/chebee7i/nxpd.git@refs/pull/15/merge#egg=nxpd
-
-
 
 .. |travis| image:: https://travis-ci.org/Autoplectic/lattices.svg?branch=master
    :target: https://travis-ci.org/Autoplectic/lattices
