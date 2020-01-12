@@ -21,8 +21,8 @@ out of date at this point, and you install a modified version:
    :target: https://github.com/dit/lattices/actions?query=workflow%3A%22Build%22
    :alt: build status
 
-.. |codecov| image:: https://codecov.io/gh/Autoplectic/lattices/branch/master/graph/badge.svg
-  :target: https://codecov.io/gh/Autoplectic/lattices
+.. |codecov| image:: https://codecov.io/gh/dit/lattices/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/dit/lattices
   :alt: test coverage
 
 .. |readthedocs| image:: https://readthedocs.org/projects/lattices/badge/?version=latest
