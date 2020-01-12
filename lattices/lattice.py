@@ -5,9 +5,7 @@ The fundimental Lattice class.
 """
 
 from collections.abc import Iterable
-
 from copy import deepcopy
-
 from itertools import combinations, permutations
 
 import networkx as nx
@@ -299,6 +297,9 @@ class Lattice(object):
 
         if joins:
             return joins[0]
+        else:
+            msg = "Join could not be found satisfying the predicate."
+            raise ValueError(msg)
 
     def meet(self, *nodes, predicate=None):
         """
@@ -326,6 +327,9 @@ class Lattice(object):
 
         if meets:
             return meets[0]
+        else:
+            msg = "Meet could not be found satisfying the predicate."
+            raise ValueError(msg)
 
     def complement(self, node):
         """
@@ -341,9 +345,8 @@ class Lattice(object):
         complement : {{{elements}}}
             The complement(s) of `node`.
         """
-        comps = {n for n in self._lattice if (self.join(n, node) == self.top)
-                                         and (self.meet(n, node) == self.bottom)}
-        return comps
+        return {n for n in self._lattice if (self.join(n, node) == self.top) and
+                                            (self.meet(n, node) == self.bottom)}
 
     def join_irreducibles(self):
         """
@@ -354,8 +357,7 @@ class Lattice(object):
         jis : {{{elements}}}
             The list of join-irreducible elements of the lattice.
         """
-        jis = {n for n in self._lattice if len(self._lattice[n]) == 1}
-        return jis
+        return {n for n in self._lattice if len(self._lattice[n]) == 1}
 
     def meet_irreducibles(self):
         """
@@ -367,8 +369,7 @@ class Lattice(object):
             The list of meet-irreducible elements of the lattice.
         """
         reverse = self._lattice.reverse()
-        mis = {n for n in reverse if len(reverse[n]) == 1}
-        return mis
+        return {n for n in reverse if len(reverse[n]) == 1}
 
     def irreducibles(self):
         """
@@ -379,8 +380,7 @@ class Lattice(object):
         irrs : {{{elements}}}
 
         """
-        irrs = self.join_irreducibles() & self.meet_irreducibles()
-        return irrs
+        return self.join_irreducibles() & self.meet_irreducibles()
 
     def _pretty_lattice(self):  # pragma: no cover
         """

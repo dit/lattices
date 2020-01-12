@@ -40,8 +40,7 @@ def powerset_lattice(elements):
     lattice : Lattice
         The corresponding lattice.
     """
-    lattice = Lattice(powerset(elements), le)
-    return lattice
+    return Lattice(powerset(elements), le)
 
 
 def partition_lattice(elements):
@@ -60,8 +59,7 @@ def partition_lattice(elements):
         The corresponding lattice.
     """
     partitions = [part for part in powerset(powerset(elements, 1), 1) if is_partition(part, elements)]
-    lattice = Lattice(partitions, refinement_le(), symbols='|')
-    return lattice
+    return Lattice(partitions, refinement_le(), symbols='|')
 
 
 def free_distributive_lattice(elements):
@@ -80,8 +78,7 @@ def free_distributive_lattice(elements):
         The corresponding lattice.
     """
     antichains = [ac for ac in powerset(powerset(elements, 1), 1) if is_antichain(ac)]
-    lattice = Lattice(antichains, antichain_le())
-    return lattice
+    return Lattice(antichains, antichain_le())
 
 
 def dependency_lattice(elements, cover=True, connected=False):
@@ -109,8 +106,7 @@ def dependency_lattice(elements, cover=True, connected=False):
         dependencies = [dep for dep in dependencies if is_cover(dep, elements)]
     if connected:
         dependencies = [dep for dep in dependencies if is_connected(dep)]
-    lattice = Lattice(dependencies, refinement_le(), '꞉⋮•')
-    return lattice
+    return Lattice(dependencies, refinement_le(), '꞉⋮•')
 
 
 def dependency_antichain_lattice(elements, cover=True, connected=False):
@@ -139,8 +135,7 @@ def dependency_antichain_lattice(elements, cover=True, connected=False):
     if connected:
         dependencies = [dep for dep in dependencies if is_connected(dep)]
     dependency_acs = [dep_ac for dep_ac in powerset(dependencies, 1) if is_antichain(dep_ac, refinement_le())]
-    lattice = Lattice(dependency_acs, antichain_le(refinement_le()))
-    return lattice
+    return Lattice(dependency_acs, antichain_le(refinement_le()))
 
 
 def partition_antichain_lattice(elements):
@@ -160,8 +155,7 @@ def partition_antichain_lattice(elements):
     """
     partitions = [part for part in powerset(powerset(elements, 1), 1) if is_partition(part, elements)]
     partitions_acs = [part_ac for part_ac in powerset(partitions, 1) if is_antichain(part_ac, refinement_le())]
-    lattice = Lattice(partitions_acs, antichain_le(refinement_le()))
-    return lattice
+    return Lattice(partitions_acs, antichain_le(refinement_le()))
 
 
 def free_modular_lattice(elements):

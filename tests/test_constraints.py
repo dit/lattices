@@ -9,6 +9,7 @@ from lattices.constraints import (is_antichain,
                                   is_cover,
                                   is_partition)
 
+
 @pytest.mark.parametrize('set_of_sets', [
     {frozenset({0})},
     {frozenset({0}), frozenset({1})},
@@ -57,7 +58,7 @@ def test_is_connected_2(set_of_sets):
     assert not is_connected(set_of_sets)
 
 
-@pytest.mark.parametrize(['set_of_sets', 'alphabet'], [
+@pytest.mark.parametrize(('set_of_sets', 'alphabet'), [
     ({frozenset({0})}, [0]),
     ({frozenset({0}), frozenset({1, 2})}, [0, 1, 2]),
     ({frozenset({0, 1}), frozenset({1, 2})}, [0, 1, 2]),
@@ -70,7 +71,7 @@ def test_is_cover_1(set_of_sets, alphabet):
     assert is_cover(set_of_sets, alphabet)
 
 
-@pytest.mark.parametrize(['set_of_sets', 'alphabet'], [
+@pytest.mark.parametrize(('set_of_sets', 'alphabet'), [
     ({frozenset({0, 1})}, [0, 1, 2]),
     ({frozenset({0, 1}), frozenset({2})}, [0, 1]),
 ])
@@ -81,7 +82,7 @@ def test_is_cover_2(set_of_sets, alphabet):
     assert not is_cover(set_of_sets, alphabet)
 
 
-@pytest.mark.parametrize(['set_of_sets', 'alphabet'], [
+@pytest.mark.parametrize(('set_of_sets', 'alphabet'), [
     ({frozenset({0})}, [0]),
     ({frozenset({0}), frozenset({1, 2})}, [0, 1, 2]),
     ({frozenset({0, 1}), frozenset({2})}, [0, 1, 2]),
@@ -94,7 +95,7 @@ def test_is_partition_1(set_of_sets, alphabet):
     assert is_partition(set_of_sets, alphabet)
 
 
-@pytest.mark.parametrize(['set_of_sets', 'alphabet'], [
+@pytest.mark.parametrize(('set_of_sets', 'alphabet'), [
     ({frozenset({0, 1}), frozenset({1, 2})}, [0, 1, 2]),
     ({frozenset({0, 1})}, [0, 1, 2]),
 ])

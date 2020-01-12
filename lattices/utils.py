@@ -15,7 +15,8 @@ __all__ = [
 
 
 def flatten(l, levels=None):
-    """Flatten an irregular list of lists.
+    """
+    Flatten an irregular list of lists.
 
     Parameters
     ----------
@@ -23,7 +24,7 @@ def flatten(l, levels=None):
        The object to be flattened.
 
     Yields
-    -------
+    ------
     el : object
         The non-iterable items in `l`.
     """
@@ -57,5 +58,5 @@ def powerset(iterable, size_limit=0):
         A subset of `iterable`.
     """
     s = list(iterable)
-    for set_ in chain.from_iterable(combinations(s, r) for r in range(size_limit, len(s)+1)):
+    for set_ in chain.from_iterable(combinations(s, r) for r in range(size_limit, len(s) + 1)):
         yield frozenset(set_)

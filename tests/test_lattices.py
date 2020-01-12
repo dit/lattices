@@ -4,14 +4,12 @@ Tests for lattices.lattices
 
 import pytest
 
-from lattices.lattices import (powerset_lattice,
-                               partition_lattice,
-                               free_distributive_lattice,
+from lattices.lattices import (dependency_antichain_lattice,
                                dependency_lattice,
-                               dependency_antichain_lattice,
+                               free_distributive_lattice,
                                partition_antichain_lattice,
-                               M3,
-                               N5,
+                               partition_lattice,
+                               powerset_lattice,
                                )
 
 
@@ -25,7 +23,7 @@ def test_powerset_lattice(size):
     assert lattice.bottom == set()
 
 
-@pytest.mark.parametrize(['size', 'true'], [
+@pytest.mark.parametrize(('size', 'true'), [
     (1, 1),
     (2, 2),
     (3, 5),
@@ -40,7 +38,7 @@ def test_partition_lattice(size, true):
     assert lattice.bottom == {frozenset({i}) for i in range(size)}
 
 
-@pytest.mark.parametrize(['size', 'true'], [
+@pytest.mark.parametrize(('size', 'true'), [
     (1, 1),
     (2, 4),
     (3, 18),
@@ -55,7 +53,7 @@ def test_free_distributive_lattice(size, true):
     assert lattice.bottom == {frozenset({i}) for i in range(size)}
 
 
-@pytest.mark.parametrize(['size', 'true'], [
+@pytest.mark.parametrize(('size', 'true'), [
     (1, 1),
     (2, 2),
     (3, 9),
@@ -70,7 +68,7 @@ def test_dependency_lattice_1(size, true):
     assert lattice.bottom == {frozenset({i}) for i in range(size)}
 
 
-@pytest.mark.parametrize(['size', 'true'], [
+@pytest.mark.parametrize(('size', 'true'), [
     (1, 2),
     (2, 5),
     (3, 19),
@@ -85,8 +83,7 @@ def test_dependency_lattice_2(size, true):
     assert lattice.bottom == frozenset()
 
 
-
-@pytest.mark.parametrize(['size', 'true'], [
+@pytest.mark.parametrize(('size', 'true'), [
     (1, 2),
     (2, 5),
     (3, 19),
@@ -101,7 +98,7 @@ def test_dependency_lattice_3(size, true):
     assert lattice.bottom == frozenset()
 
 
-@pytest.mark.parametrize(['size', 'true'], [
+@pytest.mark.parametrize(('size', 'true'), [
     (1, 2),
     (2, 6),
     (3, 82),
@@ -113,7 +110,7 @@ def test_dependency_antichain_lattice_1(size, true):
     assert len(lattice._lattice) == true
 
 
-@pytest.mark.parametrize(['size', 'true'], [
+@pytest.mark.parametrize(('size', 'true'), [
     (1, 2),
     (2, 6),
     (3, 82),
@@ -125,7 +122,7 @@ def test_dependency_antichain_lattice_2(size, true):
     assert len(lattice._lattice) == true
 
 
-@pytest.mark.parametrize(['size', 'true'], [
+@pytest.mark.parametrize(('size', 'true'), [
     (1, 1),
     (2, 2),
     (3, 20),
@@ -137,7 +134,7 @@ def test_dependency_antichain_lattice_3(size, true):
     assert len(lattice._lattice) == true
 
 
-@pytest.mark.parametrize(['size', 'true'], [
+@pytest.mark.parametrize(('size', 'true'), [
     (1, 1),
     (2, 2),
     (3, 20),
@@ -149,7 +146,7 @@ def test_dependency_antichain_lattice_4(size, true):
     assert len(lattice._lattice) == true
 
 
-@pytest.mark.parametrize(['size', 'true'], [
+@pytest.mark.parametrize(('size', 'true'), [
     (1, 1),
     (2, 2),
     (3, 9),

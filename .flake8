@@ -34,4 +34,4 @@ radon-max-cc = 15
 docstring-convention = numpy
 
 import-order-style = pycharm
-application-import-names = ludology
+application-import-names = lattices
