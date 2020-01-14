@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Various conditions one might employ in defining a lattice.
 """

@@ -35,3 +35,5 @@ docstring-convention = numpy
 
 import-order-style = pycharm
 application-import-names = lattices
+
+no-accept-encodings = True

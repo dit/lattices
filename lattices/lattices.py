@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Several specific types of lattices.
 """
