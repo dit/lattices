@@ -380,6 +380,17 @@ class Lattice(object):
         """
         return self.join_irreducibles() & self.meet_irreducibles()
 
+    def chains(self):
+        """
+        Yield all the maximal chains of the lattice.
+
+        Yields
+        ------
+        chain : list
+            A maximal chain from bottom to top.
+        """
+        yield from nx.all_simple_paths(self._lattice.reverse(), self.bottom, self.top)
+
     def _pretty_lattice(self):  # pragma: no cover
         """
         Construct a version of the lattice with nicer looking node labels.

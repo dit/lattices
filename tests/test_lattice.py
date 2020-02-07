@@ -300,3 +300,14 @@ def test_lattice_modular(lattice, truth):
     Test lattice distributivity
     """
     assert lattice.modular == truth
+
+
+@pytest.mark.parametrize(('lattice', 'total'), [
+    (free_distributive_lattice(range(2)), 2),
+    (free_distributive_lattice(range(3)), 48),
+])
+def test_lattice_chains(lattice, total):
+    """
+    Test the enumeration of chains.
+    """
+    assert len(list(lattice.chains())) == total
