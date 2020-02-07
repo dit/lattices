@@ -104,7 +104,7 @@ def dependency_lattice(elements, cover=True, connected=False):
         dependencies = [dep for dep in dependencies if is_cover(dep, elements)]
     if connected:
         dependencies = [dep for dep in dependencies if is_connected(dep)]
-    return Lattice(dependencies, refinement_le(), '꞉⋮•')
+    return Lattice(dependencies, refinement_le(), '•꞉⋮')
 
 
 def dependency_antichain_lattice(elements, cover=True, connected=False):
