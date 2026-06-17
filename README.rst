@@ -9,12 +9,11 @@ and an (partial) ordering relation.
 Drawing
 -------
 
-Lattices optionally utilizes `nxpd` to draw a lattice. This package is somewhat
-out of date at this point, and you install a modified version:
+Lattices can draw Hasse diagrams with matplotlib:
 
 .. code-block:: bash
 
-   pip install git+https://git@github.com/chebee7i/nxpd.git@refs/pull/15/merge#egg=nxpd
+   pip install lattices[plotting]
 
 
 .. |build| image:: https://github.com/dit/lattices/workflows/Build/badge.svg

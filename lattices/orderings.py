@@ -8,7 +8,31 @@ from operator import le
 __all__ = [
     'antichain_le',
     'refinement_le',
+    'constraint_le',
 ]
+
+
+def constraint_le(alpha, beta):
+    """
+  The constraint partial order used in synergistic disclosure.
+
+  ``alpha <= beta`` iff for every ``a`` in ``alpha`` there exists ``b`` in
+  ``beta`` such that ``a`` is a subset of ``b``.
+
+  Parameters
+  ----------
+  alpha, beta : frozenset of frozensets
+      Antichains of source-index sets.
+
+  Returns
+  -------
+  le : bool
+  """
+    if not alpha:
+        return True
+    if not beta:
+        return False
+    return all(any(a <= b for b in beta) for a in alpha)
 
 
 def antichain_le(le=le):
