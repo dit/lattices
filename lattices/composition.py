@@ -4,11 +4,10 @@ Lattice constructors built from other lattices.
 
 from .lattice import Lattice
 
-
 __all__ = [
-    'product_lattice',
-    'sub_lattice',
-    'interval',
+    "product_lattice",
+    "sub_lattice",
+    "interval",
 ]
 
 

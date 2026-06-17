@@ -32,13 +32,13 @@ def test_len_and_contains():
 
 def test_validate_public():
     assert M3.validate()
-    invalid = Lattice(['a', 'b', 'c', 'd'], lambda a, b: (a in ['a', 'b']) and (b in ['c', 'd']))
+    invalid = Lattice(["a", "b", "c", "d"], lambda a, b: (a in ["a", "b"]) and (b in ["c", "d"]))
     assert not invalid.validate()
 
 
 def test_validate_on_init_raises():
     with pytest.raises(ValueError):
-        Lattice(['a', 'b', 'c', 'd'], lambda a, b: (a in ['a', 'b']) and (b in ['c', 'd']), validate=True)
+        Lattice(["a", "b", "c", "d"], lambda a, b: (a in ["a", "b"]) and (b in ["c", "d"]), validate=True)
 
 
 def test_inverse_and_dual():
@@ -80,8 +80,8 @@ def test_incidence_matrix():
 
 def test_lookup_tables():
     lattice = M3
-    assert lattice.lookup_meet(frozenset({'a'}), frozenset({'b'})) == frozenset({0})
-    assert lattice.lookup_join(frozenset({'a'}), frozenset({'b'})) == frozenset({1})
+    assert lattice.lookup_meet(frozenset({"a"}), frozenset({"b"})) == frozenset({0})
+    assert lattice.lookup_join(frozenset({"a"}), frozenset({"b"})) == frozenset({1})
 
 
 def test_height_width_rank():

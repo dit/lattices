@@ -7,12 +7,11 @@ from operator import le
 
 import networkx as nx
 
-
 __all__ = [
-    'is_antichain',
-    'is_cover',
-    'is_partition',
-    'is_connected',
+    "is_antichain",
+    "is_cover",
+    "is_partition",
+    "is_connected",
 ]
 
 
@@ -35,10 +34,7 @@ def is_antichain(set_of_sets, le=le):
     antichain : bool
         Whether set_of_sets represents an antichain or not.
     """
-    for i, j in combinations(set_of_sets, 2):
-        if le(i, j) or le(j, i):
-            return False
-    return True
+    return all(not (le(i, j) or le(j, i)) for i, j in combinations(set_of_sets, 2))
 
 
 def is_cover(set_of_sets, alphabet):

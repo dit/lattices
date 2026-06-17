@@ -5,10 +5,9 @@ Utilities for constructing and working with lattices.
 from collections.abc import Iterable
 from itertools import chain, combinations
 
-
 __all__ = [
-    'flatten',
-    'powerset',
+    "flatten",
+    "powerset",
 ]
 
 
@@ -32,8 +31,7 @@ def flatten(l, levels=None):
         for el in l:
             if isinstance(el, Iterable) and not (isinstance(el, str) and len(el) == 1):
                 levels = levels if levels is None else levels - 1
-                for sub in flatten(el, levels):
-                    yield sub
+                yield from flatten(el, levels)
             else:
                 yield el
 

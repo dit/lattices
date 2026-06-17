@@ -11,26 +11,25 @@ from .lattice import Lattice
 from .orderings import antichain_le, constraint_le, refinement_le
 from .utils import powerset
 
-
 __all__ = [
-    'powerset_lattice',
-    'boolean_lattice',
-    'partition_lattice',
-    'free_distributive_lattice',
-    'dependency_lattice',
-    'dependency_antichain_lattice',
-    'partition_antichain_lattice',
-    'free_modular_lattice',
-    'constraint_lattice',
-    'chain_lattice',
-    'divisor_lattice',
-    'M3',
-    'N5',
-    'diamond',
-    'pentagon',
-    'FM3',
-    'S7',
-    'L6',
+    "powerset_lattice",
+    "boolean_lattice",
+    "partition_lattice",
+    "free_distributive_lattice",
+    "dependency_lattice",
+    "dependency_antichain_lattice",
+    "partition_antichain_lattice",
+    "free_modular_lattice",
+    "constraint_lattice",
+    "chain_lattice",
+    "divisor_lattice",
+    "M3",
+    "N5",
+    "diamond",
+    "pentagon",
+    "FM3",
+    "S7",
+    "L6",
 ]
 
 
@@ -71,7 +70,7 @@ def partition_lattice(elements):
         The corresponding lattice.
     """
     partitions = [part for part in powerset(powerset(elements, 1), 1) if is_partition(part, elements)]
-    return Lattice(partitions, refinement_le(), symbols='|')
+    return Lattice(partitions, refinement_le(), symbols="|")
 
 
 def free_distributive_lattice(elements):
@@ -118,7 +117,7 @@ def dependency_lattice(elements, cover=True, connected=False):
         dependencies = [dep for dep in dependencies if is_cover(dep, elements)]
     if connected:
         dependencies = [dep for dep in dependencies if is_connected(dep)]
-    return Lattice(dependencies, refinement_le(), '•꞉⋮')
+    return Lattice(dependencies, refinement_le(), "•꞉⋮")
 
 
 def dependency_antichain_lattice(elements, cover=True, connected=False):
@@ -246,10 +245,10 @@ def divisor_lattice(n):
 
 
 def _free_modular_lattice_two_generators():
-    nodes = {'bot', 'x', 'y', 'top'}
+    nodes = {"bot", "x", "y", "top"}
 
     def relationship(a, b):
-        order = {'bot': 0, 'x': 1, 'y': 1, 'top': 2}
+        order = {"bot": 0, "x": 1, "y": 1, "top": 2}
         return order[a] <= order[b]
 
     return Lattice(nodes, relationship)
@@ -296,22 +295,20 @@ def free_modular_lattice(elements):
 # Some special lattices
 
 
-nodes = {frozenset([0]),
-         frozenset([1]),
-         frozenset(['a']),
-         frozenset(['b']),
-         frozenset(['c']),
-         }
+nodes = {
+    frozenset([0]),
+    frozenset([1]),
+    frozenset(["a"]),
+    frozenset(["b"]),
+    frozenset(["c"]),
+}
 
 
 def m3_order(a, b):
     """
     The smallest non-distributive lattice.
     """
-    if a == {0} or b == {1}:
-        return True
-    else:
-        return False
+    return bool(a == {0} or b == {1})
 
 
 M3 = Lattice(nodes, m3_order)
@@ -322,12 +319,7 @@ def n5_order(a, b):
     """
     The smallest non-modular lattice.
     """
-    if a == {0} or b == {1}:
-        return True
-    elif a == {'a'} and b == {'b'}:
-        return True
-    else:
-        return False
+    return bool(a == {0} or b == {1} or a == {"a"} and b == {"b"})
 
 
 N5 = Lattice(nodes, n5_order)
@@ -340,6 +332,12 @@ S7 = interval(FM3, FM3_NODES[10], FM3_NODES[21])
 
 
 _L6_COVERS = [
-    ('1', 'b'), ('1', 'c'), ('b', 'd'), ('b', 'a'), ('d', 'a'), ('c', '0'), ('a', '0'),
+    ("1", "b"),
+    ("1", "c"),
+    ("b", "d"),
+    ("b", "a"),
+    ("d", "a"),
+    ("c", "0"),
+    ("a", "0"),
 ]
-L6 = lattice_from_covers(['0', 'a', 'b', 'c', 'd', '1'], _L6_COVERS)
+L6 = lattice_from_covers(["0", "a", "b", "c", "d", "1"], _L6_COVERS)

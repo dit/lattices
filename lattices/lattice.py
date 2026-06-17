@@ -9,11 +9,11 @@ from itertools import combinations, permutations
 import networkx as nx
 
 __all__ = [
-    'Lattice',
+    "Lattice",
 ]
 
 
-def stringify(symbols='•꞉⋮'):
+def stringify(symbols="•꞉⋮"):
     """
     Construct a function to convert a set (of sets [of sets {...}]) into a string.
 
@@ -27,6 +27,7 @@ def stringify(symbols='•꞉⋮'):
     strinifier : func
         A function which stringifies.
     """
+
     def stringifier(things):
         """
         Convert a set (of sets [of sets {...}]) into a string.
@@ -53,19 +54,19 @@ def stringify(symbols='•꞉⋮'):
             else:
                 raise IndexError
         except IndexError:
-            string = ''.join(map(str, sorted(things)))
+            string = "".join(map(str, sorted(things)))
 
-        return string if string else '∅'
+        return string if string else "∅"
 
     return stringifier
 
 
-class Lattice(object):
+class Lattice:
     """
     A lattice.
     """
 
-    def __init__(self, nodes, relationship, symbols='•꞉⋮', validate=False):
+    def __init__(self, nodes, relationship, symbols="•꞉⋮", validate=False):
         """
         Given a set of nodes and an ordering, construct a lattice.
 
@@ -178,6 +179,7 @@ class Lattice(object):
         valid : bool
             True if the partial order is a lattice, False otherwise.
         """
+
         def least_upper_bound(nodes):
             for node in nodes:
                 if all(node in self.descendants(ub, include=True) for ub in nodes):
@@ -212,7 +214,7 @@ class Lattice(object):
         for a, b, c in permutations(self, 3):
             left = self.join(a, self.meet(b, c))
             right = self.meet(self.join(a, b), self.join(a, c))
-            if not left == right:
+            if left != right:
                 return False
         else:
             return True
@@ -231,7 +233,7 @@ class Lattice(object):
         for a, b, c in permutations(self, 3):
             left = self.join(self.meet(a, c), self.meet(b, c))
             right = self.meet(self.join(self.meet(a, c), b), c)
-            if not left == right:
+            if left != right:
                 return False
         else:
             return True
@@ -396,8 +398,7 @@ class Lattice(object):
         complement : {{{elements}}}
             The complement(s) of `node`.
         """
-        return {n for n in self._lattice if (self.join(n, node) == self.top) and
-                                            (self.meet(n, node) == self.bottom)}
+        return {n for n in self._lattice if (self.join(n, node) == self.top) and (self.meet(n, node) == self.bottom)}
 
     def join_irreducibles(self):
         """
@@ -540,7 +541,9 @@ class Lattice(object):
         """
         values = {}
         for node in reversed(list(self)):
-            values[node] = cumulative.get(node, 0) - sum(values.get(descendant, 0) for descendant in self.descendants(node))
+            values[node] = cumulative.get(node, 0) - sum(
+                values.get(descendant, 0) for descendant in self.descendants(node)
+            )
         return values
 
     def mobius_invert_descendants(self, cumulative):
@@ -605,8 +608,7 @@ class Lattice(object):
         for size in range(1, len(nodes) + 1):
             for subset in combinations(nodes, size):
                 if all(
-                    not self._relationship(a, b) and not self._relationship(b, a)
-                    for a, b in combinations(subset, 2)
+                    not self._relationship(a, b) and not self._relationship(b, a) for a, b in combinations(subset, 2)
                 ):
                     best = max(best, size)
         return best
@@ -736,12 +738,14 @@ class Lattice(object):
         for parent, child in graph.edges():
             x1, y1 = positions[parent]
             x2, y2 = positions[child]
-            ax.plot([x1, x2], [y1, y2], color='black', linewidth=0.8, zorder=1)
+            ax.plot([x1, x2], [y1, y2], color="black", linewidth=0.8, zorder=1)
 
         for node, (x, y) in positions.items():
-            ax.text(x, y, node, ha='center', va='center', bbox=dict(boxstyle='round', fc='white', ec='gray'), zorder=2)
+            ax.text(
+                x, y, node, ha="center", va="center", bbox={"boxstyle": "round", "fc": "white", "ec": "gray"}, zorder=2
+            )
 
-        ax.axis('off')
+        ax.axis("off")
         return ax
 
     def _repr_png_(self):  # pragma: no cover
@@ -754,13 +758,14 @@ class Lattice(object):
             The data content of a png representation.
         """
         try:
-            import matplotlib.pyplot as plt
             from io import BytesIO
+
+            import matplotlib.pyplot as plt
         except ImportError:
             return None
 
         ax = self.draw()
         buffer = BytesIO()
-        ax.figure.savefig(buffer, format='png', bbox_inches='tight')
+        ax.figure.savefig(buffer, format="png", bbox_inches="tight")
         plt.close(ax.figure)
         return buffer.getvalue()

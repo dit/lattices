@@ -4,30 +4,29 @@ A collection of potential orderings among nodes.
 
 from operator import le
 
-
 __all__ = [
-    'antichain_le',
-    'refinement_le',
-    'constraint_le',
+    "antichain_le",
+    "refinement_le",
+    "constraint_le",
 ]
 
 
 def constraint_le(alpha, beta):
     """
-  The constraint partial order used in synergistic disclosure.
+    The constraint partial order used in synergistic disclosure.
 
-  ``alpha <= beta`` iff for every ``a`` in ``alpha`` there exists ``b`` in
-  ``beta`` such that ``a`` is a subset of ``b``.
+    ``alpha <= beta`` iff for every ``a`` in ``alpha`` there exists ``b`` in
+    ``beta`` such that ``a`` is a subset of ``b``.
 
-  Parameters
-  ----------
-  alpha, beta : frozenset of frozensets
-      Antichains of source-index sets.
+    Parameters
+    ----------
+    alpha, beta : frozenset of frozensets
+        Antichains of source-index sets.
 
-  Returns
-  -------
-  le : bool
-  """
+    Returns
+    -------
+    le : bool
+    """
     if not alpha:
         return True
     if not beta:
@@ -50,14 +49,12 @@ def antichain_le(le=le):
     ac_le : func
         Function implementing antichain ordering with the specified `le`.
     """
+
     def ac_le(alpha, beta):
         """
         a <= b --> for all b in beta, there exists an a in alpha such that a <= b.
         """
-        for b in beta:
-            if not any(le(a, b) for a in alpha):
-                return False
-        return True
+        return all(any(le(a, b) for a in alpha) for b in beta)
 
     return ac_le
 
@@ -77,13 +74,11 @@ def refinement_le(le=le):
     r_le : func
         Function implementing refinement ordering with the specified `le`.
     """
+
     def r_le(alpha, beta):
         """
         a <= b --> for all a in alpha, there exists a b in beta such that a <= b.
         """
-        for a in alpha:
-            if not any(le(a, b) for b in beta):
-                return False
-        return True
+        return all(any(le(a, b) for b in beta) for a in alpha)
 
     return r_le
