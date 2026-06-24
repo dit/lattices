@@ -3,7 +3,7 @@ Lattices is a package for the construction of lattices from a set of nodes and
 an ordering relation.
 """
 
-__version__ = "0.5.0"
+__version__ = "0.5.1"
 
 from .composition import interval, product_lattice, sub_lattice
 from .lattice import Lattice, stringify
