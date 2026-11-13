@@ -192,10 +192,10 @@ class Lattice:
 
         for a, b in combinations(self, 2):
             upper_bounds = self.ascendants(a, include=True) & self.ascendants(b, include=True)
-            if not least_upper_bound(upper_bounds):
+            if least_upper_bound(upper_bounds) is None:
                 return False
             lower_bounds = self.descendants(a, include=True) & self.descendants(b, include=True)
-            if not greatest_lower_bound(lower_bounds):
+            if greatest_lower_bound(lower_bounds) is None:
                 return False
         else:
             return True
