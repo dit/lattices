@@ -17,6 +17,10 @@ def stringify(symbols="•꞉⋮"):
     """
     Construct a function to convert a set (of sets [of sets {...}]) into a string.
 
+    Sets are sorted, and nested sets are separated by `symbols`, one symbol per
+    level. Tuples keep their order and are written in parentheses, and strings
+    are left whole.
+
     Parameters
     ----------
     symbols : str
@@ -42,6 +46,11 @@ def stringify(symbols="•꞉⋮"):
         string : str
             The string representation of `things`.
         """
+        if isinstance(things, str):
+            return things
+        if isinstance(things, tuple):
+            return f"({', '.join(map(stringifier, things))})"
+
         try:
             things = list(things)
         except TypeError:  # pragma: no cover
@@ -192,10 +201,10 @@ class Lattice:
 
         for a, b in combinations(self, 2):
             upper_bounds = self.ascendants(a, include=True) & self.ascendants(b, include=True)
-            if not least_upper_bound(upper_bounds):
+            if least_upper_bound(upper_bounds) is None:
                 return False
             lower_bounds = self.descendants(a, include=True) & self.descendants(b, include=True)
-            if not greatest_lower_bound(lower_bounds):
+            if greatest_lower_bound(lower_bounds) is None:
                 return False
         else:
             return True
@@ -694,8 +703,7 @@ class Lattice:
         pretty_lattice : nx.DiGraph
             A topologically-equivalent, but more nicely labeled, lattice.
         """
-        edges = [(self._stringify(a), self._stringify(b)) for a, b in self._lattice.edges()]
-        return nx.from_edgelist(edges, nx.DiGraph)
+        return nx.relabel_nodes(self._lattice, self._stringify)
 
     def draw(self, ax=None):  # pragma: no cover
         """
@@ -719,7 +727,7 @@ class Lattice:
 
         graph = self._pretty_lattice()
         levels = {}
-        for node in nx.topological_sort(graph.reverse()):
+        for node in nx.topological_sort(graph):
             preds = list(graph.predecessors(node))
             levels[node] = 0 if not preds else max(levels[p] for p in preds) + 1
 

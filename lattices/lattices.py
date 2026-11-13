@@ -2,7 +2,7 @@
 Several specific types of lattices.
 """
 
-from operator import le
+from operator import ge, le
 
 from ._fm3 import FM3_NODES, fm3_lattice, lattice_from_covers
 from .composition import interval
@@ -21,6 +21,7 @@ __all__ = [
     "partition_antichain_lattice",
     "free_modular_lattice",
     "constraint_lattice",
+    "information_loss_lattice",
     "chain_lattice",
     "divisor_lattice",
     "M3",
@@ -190,6 +191,45 @@ def constraint_lattice(sources):
     fdl = free_distributive_lattice(sources)
     nodes = set(fdl) | {frozenset()}
     return Lattice(nodes, constraint_le).inverse()
+
+
+def information_loss_lattice(elements):
+    """
+    Construct the information loss lattice of Chicharro and Panzeri.
+
+    The nodes are the antichains of non-empty subsets of `elements`, including
+    the empty antichain but not ``{elements}``, and ``alpha <= beta`` iff every
+    set in ``beta`` is a subset of some set in ``alpha``. The empty antichain is
+    the top and, for two or more elements, the antichain of all subsets of size
+    ``len(elements) - 1`` is the bottom. A node ``alpha`` indexes the
+    information lost when only the sources in ``alpha`` are available, so the
+    total information is at the top and synergy is at the bottom.
+
+    The information gain (redundancy) lattice, :func:`free_distributive_lattice`,
+    has ``{elements}`` in place of the empty antichain and reverses the subset
+    relation between sources. The loss lattice is also :func:`constraint_lattice`
+    without its bottom element ``{elements}``.
+
+    Parameters
+    ----------
+    elements : collection
+        The elements to use to construct the lattice.
+
+    Returns
+    -------
+    lattice : Lattice
+        The corresponding lattice.
+
+    References
+    ----------
+    D. Chicharro and S. Panzeri, "Synergy and redundancy in dual
+    decompositions of mutual information gain and information loss,"
+    Entropy 19(2), 71 (2017). arXiv:1612.09522.
+    """
+    elements = list(elements)
+    full = frozenset(elements)
+    antichains = [ac for ac in powerset(powerset(elements, 1)) if is_antichain(ac) and full not in ac]
+    return Lattice(antichains, antichain_le(ge))
 
 
 def chain_lattice(n):

@@ -4,8 +4,9 @@ Tests for lattices.lattice
 
 import pytest
 
+from lattices.composition import product_lattice
 from lattices.lattice import Lattice, stringify
-from lattices.lattices import M3, N5, free_distributive_lattice, powerset_lattice
+from lattices.lattices import FM3, M3, N5, chain_lattice, free_distributive_lattice, powerset_lattice
 
 
 @pytest.mark.parametrize(
@@ -14,6 +15,9 @@ from lattices.lattices import M3, N5, free_distributive_lattice, powerset_lattic
         ({frozenset({0, 1}), frozenset({1, 2})}, "01•12", "•꞉⋮"),
         ({frozenset({frozenset({0}), frozenset({1})}), frozenset({1, 2})}, "0꞉1•12", "•꞉⋮"),
         ({frozenset({frozenset({0}), frozenset({1})}), frozenset({1, 2})}, "0⋮1꞉12", "꞉⋮•"),
+        ((1, 0), "(1, 0)", "•꞉⋮"),
+        ((0, frozenset()), "(0, ∅)", "•꞉⋮"),
+        ("top", "top", "•꞉⋮"),
     ],
 )
 def test_stringify(a, b, c):
@@ -378,3 +382,22 @@ def test_lattice_chains(lattice, total):
     Test the enumeration of chains.
     """
     assert len(list(lattice.chains())) == total
+
+
+@pytest.mark.parametrize(
+    "lattice",
+    [N5, powerset_lattice(range(3)), chain_lattice(1), product_lattice(chain_lattice(2), chain_lattice(2)), FM3],
+)
+def test_lattice_draw(lattice):
+    """
+    Test that drawing places every node, each with its own label, above the nodes it covers.
+    """
+    matplotlib = pytest.importorskip("matplotlib")
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    ax = lattice.draw()
+    heights = {text.get_text(): text.get_position()[1] for text in ax.texts}
+    plt.close(ax.figure)
+    assert len(heights) == len(lattice)
+    assert all(heights[lattice._stringify(a)] > heights[lattice._stringify(b)] for a, b in lattice.cover_edges())

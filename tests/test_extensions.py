@@ -36,6 +36,13 @@ def test_validate_public():
     assert not invalid.validate()
 
 
+def test_validate_falsy_nodes():
+    # The empty set and 0 are legitimate joins and meets.
+    assert chain_lattice(3).validate()
+    assert powerset_lattice([0, 1]).validate()
+    assert len(interval(powerset_lattice([0, 1]), frozenset(), frozenset({0}))) == 2
+
+
 def test_validate_on_init_raises():
     with pytest.raises(ValueError):
         Lattice(["a", "b", "c", "d"], lambda a, b: (a in ["a", "b"]) and (b in ["c", "d"]), validate=True)

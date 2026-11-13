@@ -58,7 +58,7 @@ jobs:
         run: echo '${{ matrix.python-version }}' > .python-version
 
       - name: Install package and dependencies
-        run: uv sync --extra test
+        run: uv sync --extra test --extra plotting
 
       - name: Run tests
         env:
