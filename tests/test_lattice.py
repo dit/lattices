@@ -390,8 +390,7 @@ def test_lattice_chains(lattice, total):
 )
 def test_lattice_draw(lattice):
     """
-    Test that drawing places every node, each with its own label, above the
-    nodes it covers.
+    Test that drawing places every node, each with its own label, above the nodes it covers.
     """
     matplotlib = pytest.importorskip("matplotlib")
     matplotlib.use("Agg")

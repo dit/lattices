@@ -233,8 +233,7 @@ FIGURE_3B_COVERS = {
 
 def test_information_loss_lattice_figure_3():
     """
-    The trivariate loss lattice is Figure 3B of Chicharro and Panzeri, with the
-    loss lattice without bivariate sources (Figure 3D) as a sublattice.
+    The trivariate loss lattice is Figure 3B of Chicharro and Panzeri, with Figure 3D as a sublattice.
     """
     lattice = information_loss_lattice([1, 2, 3])
     covers = {
