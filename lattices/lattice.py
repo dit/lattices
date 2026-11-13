@@ -719,7 +719,7 @@ class Lattice:
 
         graph = self._pretty_lattice()
         levels = {}
-        for node in nx.topological_sort(graph.reverse()):
+        for node in nx.topological_sort(graph):
             preds = list(graph.predecessors(node))
             levels[node] = 0 if not preds else max(levels[p] for p in preds) + 1
 

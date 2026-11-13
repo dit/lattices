@@ -378,3 +378,19 @@ def test_lattice_chains(lattice, total):
     Test the enumeration of chains.
     """
     assert len(list(lattice.chains())) == total
+
+
+@pytest.mark.parametrize("lattice", [N5, powerset_lattice(range(3))])
+def test_lattice_draw(lattice):
+    """
+    Test that drawing places every node above the nodes it covers.
+    """
+    matplotlib = pytest.importorskip("matplotlib")
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    ax = lattice.draw()
+    heights = {text.get_text(): text.get_position()[1] for text in ax.texts}
+    plt.close(ax.figure)
+    assert len(heights) == len(lattice)
+    assert all(heights[lattice._stringify(a)] > heights[lattice._stringify(b)] for a, b in lattice.cover_edges())
